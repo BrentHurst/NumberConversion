@@ -2,14 +2,14 @@
  *   G BRENT HURST
  *   RomanNumeralConverter.cpp
  *   May 7, 2017 (original)
- *   August 11, 2019 (last edit)
+ *   August 12, 2019 (last edit)
  *
- *   #include "RomanNumeralConverter.h"
+ *   #include "NumberConversion.h"
  *
  ************************************************/
 
 
-#include "RomanNumeralConverter.h"
+#include "NumberConversion.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -59,7 +59,7 @@ bool IsValidRN(const string& rn)
 
 //Convert Roman numeral rn to decimal integer
 //Return -1 if not valid Roman numeral
-int RTI(const string& rn)
+int FromRoman(const string& rn)
 {
 	int n;
 	unsigned int i;
@@ -109,7 +109,7 @@ int RTI(const string& rn)
 //form of an integer from 1 to 3999.
 //Returns "" on n<1 or n>3999.
 //Inconveniently long but self-explanatory.
-string ITR(int n)
+string ToRomanUpper(int n)
 {
 	string s;
 
@@ -196,7 +196,7 @@ string ITR(int n)
 //Return the miniscule Roman numeral
 //form of an integer from 1 to 3999.
 //Returns "" on n<1 or n>3999.
-string ITRL(int n)
+string ToRomanLower(int n)
 {
 	unsigned int i;
 	string s;
@@ -204,7 +204,7 @@ string ITRL(int n)
 	if(n<1 || n>3999)
 		return "";
 
-	s=ITR(n);
+	s = ToRomanUpper(n);
 	for(i=0; i<s.size(); i++)
 		s[i]+=('a'-'A');
 

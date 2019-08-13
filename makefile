@@ -1,26 +1,35 @@
 # G BRENT HURST
 # Makefile for NumberConversion
 
+
+
+OBJDIR = obj
+SRCDIR = src
+HEADERDIR = .
+LIBDIR = .
+
 CC = g++
 LANGUAGE = cpp
-CFLAGS = -Wall
+CFLAGS = -Wall -Wextra -I$(LIBDIR)
 
-INCLUDEDIR = $(HOME)/include
-HEADERDIR = $(INCLUDEDIR)/headers
+NAME = NumberConversion
 
-NAME = "NumberConversion"
+LIBFILENAME = $(LIBDIR)/lib$(NAME).a
+HEADERS = $(HEADERDIR)/$(NAME).h
+OBJECTS = $(patsubst $(SRCDIR)/%.$(LANGUAGE),$(OBJDIR)/%.o,$(wildcard $(SRCDIR)/*.$(LANGUAGE)))
 
-ARCHIVE = $(INCLUDEDIR)/lib$(NAME).a
-HEADER = $(HEADERDIR)/$(NAME).h
-OBJECTS = RomanNumeral.o
 
-all: $(ARCHIVE)
+all: $(LIBFILENAME)
 
-$(ARCHIVE): $(OBJECTS)
-	ar -vr $(ARCHIVE) $(OBJECTS)
+$(LIBFILENAME): $(OBJECTS)
+	ar -vr $(LIBFILENAME) $(OBJECTS)
 
-%.o: %.$(LANGUAGE) $(HEADER)
-	$(CC) $(CFLAGS) -c $*.$(LANGUAGE)
+$(OBJDIR)/%.o: $(SRCDIR)/%.$(LANGUAGE) $(HEADERS) | $(OBJDIR)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
 
 .PHONY: clean
 clean:
@@ -28,4 +37,4 @@ clean:
 
 .PHONY: cleanall
 cleanall:
-	rm -f $(OBJECTS) $(ARCHIVE)
+	rm -f $(OBJECTS) $(LIBFILENAME)
